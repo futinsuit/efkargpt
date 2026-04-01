@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EfkarGPT</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>EfkarGPT</h1>
+        <p class="subtitle">İçinden geçeni yaz. Sistem seni yargılamadan cevap versin.</p>
+
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+
+        <form method="POST" class="card form-card">
+            <label for="mood">Ruh halin</label>
+            <select name="mood" id="mood" required>
+                <option value="">Seç</option>
+                <option value="üzgün">Üzgün</option>
+                <option value="öfkeli">Öfkeli</option>
+                <option value="karışık">Karışık</option>
+                <option value="mutlu">Mutlu</option>
+                <option value="boşlukta">Boşlukta</option>
+            </select>
+
+            <label for="content">İçinden geçen</label>
+            <textarea name="content" id="content" rows="6" placeholder="Bugün ne oldu?" required></textarea>
+
+            <button type="submit">Yazıyı Gönder</button>
+        </form>
+
+        <h2>Son paylaşımlar</h2>
+
+        {% if posts %}
+            {% for post in posts %}
+                <div class="card post-card">
+                    <div class="meta">
+                        <span class="mood">{{ post["mood"] }}</span>
+                        <span class="date">{{ post["created_at"] }}</span>
+                    </div>
+
+                    <p class="content">{{ post["content"] }}</p>
+
+                    <div class="reply-box">
+                        <strong>EfkarGPT:</strong>
+                        <p>{{ post["reply"] }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="card post-card">
+                <p>Henüz paylaşım yok.</p>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
