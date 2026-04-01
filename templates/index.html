@@ -38,9 +38,10 @@
             {% for post in posts %}
                 <div class="card post-card">
                     <div class="meta">
-                        <span class="mood">{{ post["mood"] }}</span>
-                        <span class="date">{{ post["created_at"] }}</span>
-                    </div>
+    <span class="nickname">{{ post["nickname"] }}</span>
+    <span class="mood">{{ post["mood"] }}</span>
+    <span class="date">{{ post["created_at"] }}</span>
+</div>
 
                     <p class="content">{{ post["content"] }}</p>
 
