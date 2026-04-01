@@ -1,10 +1,22 @@
 import sqlite3
+import random
 from datetime import datetime
 from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
 DB_NAME = "efkar.db"
+nick_adjectives = [
+    "Sessiz", "Yorgun", "Kayıp", "Derin", "Kırık",
+    "Yalnız", "Gölgeli", "Solgun", "Suskun", "Dalgın"
+]
 
+nick_nouns = [
+    "Ruh", "Kalp", "Zihin", "Yolcu", "Gece",
+    "Düş", "Ses", "Anı", "Gölge", "Yıldız"
+]
+
+def generate_nickname():
+    return random.choice(nick_adjectives) + random.choice(nick_nouns)
 
 def get_db_connection():
     conn = sqlite3.connect(DB_NAME)
@@ -15,12 +27,14 @@ def get_db_connection():
 def init_db():
     conn = get_db_connection()
     conn.execute("""
-        CREATE TABLE IF NOT EXISTS posts (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            mood TEXT NOT NULL,
-            content TEXT NOT NULL,
-            reply TEXT NOT NULL,
-            created_at TEXT NOT NULL
+       CREATE TABLE IF NOT EXISTS posts (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nickname TEXT NOT NULL,
+    mood TEXT NOT NULL,
+    content TEXT NOT NULL,
+    reply TEXT NOT NULL,
+    created_at TEXT NOT NULL
+)
         )
     """)
     conn.commit()
@@ -74,14 +88,15 @@ def index():
                 posts=get_posts()
             )
 
-        reply = generate_reply(content, mood)
-        created_at = datetime.now().strftime("%Y-%m-%d %H:%M")
+        nickname = generate_nickname()
+reply = generate_reply(content, mood)
+created_at = datetime.now().strftime("%Y-%m-%d %H:%M")
 
         conn = get_db_connection()
-        conn.execute(
-            "INSERT INTO posts (mood, content, reply, created_at) VALUES (?, ?, ?, ?)",
-            (mood, content, reply, created_at)
-        )
+      conn.execute(
+    "INSERT INTO posts (nickname, mood, content, reply, created_at) VALUES (?, ?, ?, ?, ?)",
+    (nickname, mood, content, reply, created_at)
+)
         conn.commit()
         conn.close()
 
