@@ -96,3 +96,7 @@ button:hover {
     border-radius: 10px;
     margin-bottom: 16px;
 }
+.nickname {
+    font-weight: bold;
+    color: #93c5fd;
+}
