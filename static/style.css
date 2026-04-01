@@ -1,0 +1,98 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #111827, #1f2937);
+    color: #f9fafb;
+}
+
+.container {
+    width: 90%;
+    max-width: 800px;
+    margin: 40px auto;
+}
+
+h1 {
+    margin-bottom: 8px;
+    font-size: 42px;
+}
+
+.subtitle {
+    color: #cbd5e1;
+    margin-bottom: 24px;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 18px;
+    margin-bottom: 18px;
+    backdrop-filter: blur(8px);
+}
+
+.form-card label {
+    display: block;
+    margin: 12px 0 6px;
+    font-weight: bold;
+}
+
+select,
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    margin-bottom: 8px;
+}
+
+button {
+    margin-top: 10px;
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.92;
+}
+
+.meta {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #d1d5db;
+}
+
+.mood {
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+.content {
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.reply-box {
+    margin-top: 14px;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 12px;
+    border-radius: 12px;
+}
+
+.error {
+    background: #7f1d1d;
+    color: #fecaca;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 16px;
+}
