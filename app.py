@@ -5,6 +5,7 @@ from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
 DB_NAME = "efkar.db"
+
 nick_adjectives = [
     "Sessiz", "Yorgun", "Kayıp", "Derin", "Kırık",
     "Yalnız", "Gölgeli", "Solgun", "Suskun", "Dalgın"
@@ -15,8 +16,10 @@ nick_nouns = [
     "Düş", "Ses", "Anı", "Gölge", "Yıldız"
 ]
 
+
 def generate_nickname():
     return random.choice(nick_adjectives) + random.choice(nick_nouns)
+
 
 def get_db_connection():
     conn = sqlite3.connect(DB_NAME)
@@ -27,14 +30,13 @@ def get_db_connection():
 def init_db():
     conn = get_db_connection()
     conn.execute("""
-       CREATE TABLE IF NOT EXISTS posts (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    nickname TEXT NOT NULL,
-    mood TEXT NOT NULL,
-    content TEXT NOT NULL,
-    reply TEXT NOT NULL,
-    created_at TEXT NOT NULL
-)
+        CREATE TABLE IF NOT EXISTS posts (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nickname TEXT NOT NULL,
+            mood TEXT NOT NULL,
+            content TEXT NOT NULL,
+            reply TEXT NOT NULL,
+            created_at TEXT NOT NULL
         )
     """)
     conn.commit()
@@ -42,13 +44,8 @@ def init_db():
 
 
 def generate_reply(content, mood):
-    """
-    İlk sürüm için sahte-AI / kural tabanlı cevap sistemi.
-    Sonradan gerçek API ile değiştirilebilir.
-    """
     text = content.lower()
 
-    # Anahtar kelime bazlı basit cevaplar
     if "yalnız" in text or "yalniz" in text:
         return "Yalnız hissetmen, gerçekten yalnız olduğun anlamına gelmez. Bazen insanın içi kalabalığın ortasında bile sessizleşir."
     if "sınav" in text or "sinav" in text or "ders" in text:
@@ -60,7 +57,6 @@ def generate_reply(content, mood):
     if "arkadaş" in text or "kanka" in text:
         return "Dostlukta en ağır gelen şey anlaşılmamaktır. Belki önce kırıldığın noktayı kendi içinde netleştirmen iyi gelir."
 
-    # Ruh haline göre genel cevap
     mood_replies = {
         "üzgün": "Üzgün hissetmen zayıflık değil. İnsan bazen taşıdığı yükü ancak durunca fark eder.",
         "öfkeli": "Öfke çoğu zaman görünen yüzdür; altında kırgınlık ya da hayal kırıklığı yatar. Önce sebebi ayıklamak gerekir.",
@@ -89,14 +85,14 @@ def index():
             )
 
         nickname = generate_nickname()
-reply = generate_reply(content, mood)
-created_at = datetime.now().strftime("%Y-%m-%d %H:%M")
+        reply = generate_reply(content, mood)
+        created_at = datetime.now().strftime("%Y-%m-%d %H:%M")
 
         conn = get_db_connection()
-      conn.execute(
-    "INSERT INTO posts (nickname, mood, content, reply, created_at) VALUES (?, ?, ?, ?, ?)",
-    (nickname, mood, content, reply, created_at)
-)
+        conn.execute(
+            "INSERT INTO posts (nickname, mood, content, reply, created_at) VALUES (?, ?, ?, ?, ?)",
+            (nickname, mood, content, reply, created_at)
+        )
         conn.commit()
         conn.close()
 
